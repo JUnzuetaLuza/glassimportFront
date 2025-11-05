@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import { LoginPage } from "../pages/auth/LoginPage";
+import { AuthPage } from "../pages/auth/AuthPage";
 import { LandingPageLayout } from "../pages/landing-page/LandingPageLayout";
 import { ContactPage } from "../pages/landing-page/views/ContactPage";
 import { HomePage } from "../pages/landing-page/views/HomePage";
@@ -18,7 +18,7 @@ export const AppRouter = () => {
         <Route path="/servicios" element={<ServiciosPage />} />
       </Route>
       <Route path="/auth">
-        <Route index element={<LoginPage />} />
+        <Route index element={<AuthPage />} />
       </Route>
       <Route path="/panel-citas" element={<PanelCitaLayout />}>
         <Route index element={<InicioPanelCita />} />

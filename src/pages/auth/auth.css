@@ -1,25 +1,11 @@
-/* --- Variables y Reset --- */
-:root {
-  --color-primary: #2d3748; 
-  --color-text-light: #4a5568; 
-  --color-bg-dark: #000;
-  --color-social-bg: #f7fafc; 
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* --- Cuerpo --- */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+.body-c {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #000;
+
   overflow: hidden;
 }
 
@@ -30,7 +16,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('img/luna.png');
+  background-image: url("img/luna.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -196,9 +182,15 @@ body {
   transform: scale(1.1);
 }
 
-.google i { color: #4285f4; }
-.facebook i { color: #1877f2; }
-.apple i { color: #000; }
+.google i {
+  color: #4285f4;
+}
+.facebook i {
+  color: #1877f2;
+}
+.apple i {
+  color: #000;
+}
 
 /* --- Texto de registro --- */
 .register-text {

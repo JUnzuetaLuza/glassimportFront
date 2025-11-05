@@ -1,7 +1,8 @@
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import "./landing-page.css";
 
 export const LandingPageLayout = () => {
+  const navigate = useNavigate();
   const navLinks = [
     {
       href: "/",
@@ -17,8 +18,8 @@ export const LandingPageLayout = () => {
     },
   ];
 
-  const onLogout = () => {
-    console.log("logout");
+  const navigateToLogin = () => {
+    navigate("/auth");
   };
 
   return (
@@ -48,7 +49,7 @@ export const LandingPageLayout = () => {
                   </Link>
                 </li>
               ))}
-              <li onClick={onLogout}>
+              <li onClick={navigateToLogin}>
                 <a>
                   <button className="btn btn-primary ">Login</button>
                 </a>
