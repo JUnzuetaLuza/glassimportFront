@@ -1,4 +1,11 @@
+
+
 export const LoginComponent = ({ handleFlipped }) => {
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
+
   return (
     <div className="login-card card-front">
       <div className="card-header">
@@ -38,7 +45,7 @@ export const LoginComponent = ({ handleFlipped }) => {
             ¿Olvidaste tu contraseña?
           </a>
 
-          <button type="submit" className="btn-get-started">
+          <button type="submit" className="btn-get-started" onClick={handleGoogleLogin}>
             Comenzar
           </button>
         </form>
@@ -46,8 +53,8 @@ export const LoginComponent = ({ handleFlipped }) => {
         <p className="or-separator">O inicia sesión con</p>
 
         <div className="social-login">
-          <button className="social-btn google">
-            <i className="fab fa-google"></i>
+          <button className="social-btn google" onClick={handleGoogleLogin}>
+            <i className="fab fa-google"><strong>G</strong></i>
           </button>
         </div>
 
