@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useRegisterMutation } from "../../stores/auth/auth-api";
+import { validEmail } from "../../utils/valid-email";
 
 export const RegisterComponent = ({ handleFlipped }) => {
   const [register, {}] = useRegisterMutation();
@@ -21,8 +22,13 @@ export const RegisterComponent = ({ handleFlipped }) => {
       setError("Campos incompletos");
       return;
     }
-    if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+    if (validEmail(email)) {
       setError("Email inválido");
+    }
+
+    if (password && password.length <= 6) {
+      setError("Contraseña debe ser de minimo 6 caracteres");
+      return;
     }
 
     if (

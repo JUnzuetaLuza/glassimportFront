@@ -1,28 +1,47 @@
 import { useState } from "react";
+import { useForm } from "../../hooks/useForm";
+import { useLoginMutation } from "../../stores/auth/auth-api";
+import { validEmail } from "../../utils/valid-email";
 
 export const LoginComponent = ({ handleFlipped }) => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  const [error, setError] = useState();
+  const { formState, onInputChange, onResetForm } = useForm({
+    email: "",
+    password: "",
+  });
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const [login, {}] = useLoginMutation();
 
-  //   try {
-  //     const response = await fetch("http://localhost:8080/api/users/login", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-
-  //     const data = await response.json();
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error("Error al iniciar sesión:", error);
-  //   }
-  // };
+  const { email, password } = formState;
 
   const handleGoogleLogin = () => {
     window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (password | email) {
+      setError("Campos incompletos");
+      return;
+    }
+    if (password && password.length < 6) {
+      setError("Contraseña no cumple con el patron del sistema");
+      return;
+    }
+    if (validEmail(email)) {
+      setError("El email no es válido");
+      return;
+    }
+
+    try {
+      const data = await login({ email, password });
+      /* llamar al storage, y guardar datos del user */
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setError("");
+      onResetForm();
+    }
   };
 
   return (
@@ -38,7 +57,7 @@ export const LoginComponent = ({ handleFlipped }) => {
           Inicia sesion con nostros para reservar tu cita{" "}
         </p>
 
-        <form id="loginForm" /*onSubmit={handleSubmit}*/ >
+        <form id="loginForm" onSubmit={onSubmit}>
           <div className="input-group">
             <i className="fas fa-envelope icon"></i>
             <input
@@ -46,8 +65,9 @@ export const LoginComponent = ({ handleFlipped }) => {
               type="email"
               placeholder="Correo electrónico"
               required
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              onChange={onInputChange}
+              value={email}
             />
           </div>
 
@@ -58,17 +78,22 @@ export const LoginComponent = ({ handleFlipped }) => {
               type="password"
               placeholder="Contraseña"
               required
-              // value={password}
-              // onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              onChange={onInputChange}
+              value={password}
             />
             <i className="fas fa-eye-slash toggle-password"></i>
           </div>
-
+          {error && <p>{error}</p>}
           <a href="#" className="forgot-password">
             ¿Olvidaste tu contraseña?
           </a>
 
-          <button type="submit" className="btn-get-started" onClick={handleGoogleLogin}>
+          <button
+            type="submit"
+            className="btn-get-started"
+            onClick={handleGoogleLogin}
+          >
             Comenzar
           </button>
         </form>
@@ -77,7 +102,9 @@ export const LoginComponent = ({ handleFlipped }) => {
 
         <div className="social-login">
           <button className="social-btn google" onClick={handleGoogleLogin}>
-            <i className="fab fa-google"><strong>G</strong></i>
+            <i className="fab fa-google">
+              <strong>G</strong>
+            </i>
           </button>
         </div>
 
