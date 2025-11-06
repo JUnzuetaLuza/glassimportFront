@@ -1,4 +1,52 @@
+import { useState } from "react";
+import { useForm } from "../../hooks/useForm";
+import { useRegisterMutation } from "../../stores/auth/auth-api";
+
 export const RegisterComponent = ({ handleFlipped }) => {
+  const [register, {}] = useRegisterMutation();
+  const [error, setError] = useState();
+  const { formState, onInputChange, onResetForm } = useForm({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const { username, email, password, confirmPassword } = formState;
+
+  const handleRegister = async (event) => {
+    event.preventDefault();
+
+    if (!username || !email || !password || !confirmPassword) {
+      setError("Campos incompletos");
+      return;
+    }
+    if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      setError("Email inválido");
+    }
+
+    if (
+      password != confirmPassword ||
+      password.length !== confirmPassword.length
+    ) {
+      setError("Contraseñas no coinciden");
+      return;
+    }
+
+    try {
+      const data = await register({
+        email: email,
+        password: password,
+        username: username,
+      });
+      console.log(data);
+    } catch (err) {
+    } finally {
+      setError("");
+      onResetForm();
+    }
+  };
+
   return (
     <div className="login-card card-back">
       <div className="card-header">
@@ -8,12 +56,15 @@ export const RegisterComponent = ({ handleFlipped }) => {
         <h2>CREAR CUENTA</h2>
         <p className="subtitle">Crea una cuenta para iniciar sesion </p>
 
-        <form id="registerForm">
+        <form id="registerForm" onSubmit={handleRegister} autoComplete="off">
           <div className="input-group">
             <i className="fas fa-user icon"></i>
             <input
               type="text"
               id="username"
+              name="username"
+              value={username}
+              onChange={onInputChange}
               placeholder="Nombre completo"
               required
             />
@@ -24,6 +75,9 @@ export const RegisterComponent = ({ handleFlipped }) => {
             <input
               type="email"
               id="email"
+              name="email"
+              value={email}
+              onChange={onInputChange}
               placeholder="Correo electrónico"
               required
             />
@@ -33,6 +87,9 @@ export const RegisterComponent = ({ handleFlipped }) => {
             <i className="fas fa-lock icon"></i>
             <input
               type="password"
+              name="password"
+              value={password}
+              onChange={onInputChange}
               id="password"
               placeholder="Contraseña"
               required
@@ -45,12 +102,16 @@ export const RegisterComponent = ({ handleFlipped }) => {
             <input
               type="password"
               id="confirmPassword"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={onInputChange}
               placeholder="Confirmar contraseña"
               required
             />
             <i className="fas fa-eye-slash toggle-password"></i>
           </div>
 
+          {error && <p>{error}</p>}
           <button type="submit" className="btn-get-started">
             Registrarse
           </button>

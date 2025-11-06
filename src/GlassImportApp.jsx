@@ -1,10 +1,14 @@
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router";
 import { AppRouter } from "./router/AppRouter";
+import store from "./stores/store";
 
 export const GlassImportApp = () => {
   return (
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </Provider>
   );
 };
