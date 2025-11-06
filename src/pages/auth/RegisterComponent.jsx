@@ -24,6 +24,7 @@ export const RegisterComponent = ({ handleFlipped }) => {
     }
     if (validEmail(email)) {
       setError("Email inválido");
+      return;
     }
 
     if (password && password.length <= 6) {
@@ -41,7 +42,7 @@ export const RegisterComponent = ({ handleFlipped }) => {
 
     try {
       const data = await register({
-        email: email,
+        email: email.toLowerCase(),
         password: password,
         username: username,
       });
