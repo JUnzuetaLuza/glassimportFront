@@ -22,7 +22,8 @@ export const RegisterComponent = ({ handleFlipped }) => {
       setError("Campos incompletos");
       return;
     }
-    if (validEmail(email)) {
+    if (!validEmail(email)) {
+      // validEmail(email) si el email es valido retorna true, por ende invertimos el true para que no entre aqui
       setError("Email inválido");
       return;
     }
